@@ -1,9 +1,88 @@
+from __future__ import annotations 
 
+
+
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_ROOT = PROJECT_ROOT.parent / "data" / "ViLStrUB"
+CATEGORY_ORDER = ["vp", "pp", "anaph", "ellip", "adj", "vb", "conj"]
+CATEGORY_DATASET_CONFIG = {
+    "vp": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "vp.json",
+        "image_dir": DATA_ROOT / "images" / "vp",
+    },
+    "pp": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "pp.json",
+        "image_dir": DATA_ROOT / "images" / "pp",
+    },
+    "anaph": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "anaph.json",
+        "image_dir": DATA_ROOT / "images" / "anaph",
+    },
+    "ellip": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "ellip.json",
+        "image_dir": DATA_ROOT / "images" / "ellip",
+    },
+    "adj": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "adjscope.json",
+        "image_dir": DATA_ROOT / "images" / "adjscope",
+    },
+    "vb": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "verbscope.json",
+        "image_dir": DATA_ROOT / "images" / "verbscope",
+    },
+    "conj": {
+        "json_path": DATA_ROOT / "jsons_UNIT2" / "conj.json",
+        "image_dir": DATA_ROOT / "images" / "conj",
+    },
+}
 
 
 VS_JSON_PATH = "../../../../data/ViLStrUB/jsons_UNIT2/"
 VS_IMAGE_PATH = "../../../../data/ViLStrUB/images/"
 # It would be better if I could treat them as environment variables I guess 
+
+SIMPLE_SELECTION_SYSTEM_PROMPT = """
+You are a vision-language reasoning model performing structural disambiguation using visual context.
+
+You will be given:
+- an ambiguous caption
+- an image
+
+Your task is to select the correct interpretation of the caption based on the image.
+
+Important:
+- All options are derived from the same ambiguous caption and differ only in structural interpretation.
+- You MUST use the image to decide.
+- Do NOT rely only on textual plausibility.
+"""
+
+SIMPLE_SELECTION_USER_PROMPT_CAPTION_AND_IMAGE = """
+Caption: "{input_caption}"
+
+And now, here is the image
+"""
+
+SIMPLE_SELECTION_USER_PROMPT_QUESTION_TWO_MEANINGS = """  
+Among the following options, which one is the right disambiguated meaning of the caption with the help of the image?
+1) "{resolved_caption_correct}"
+2) "{resolved_caption_incorrect}"
+3) I cannot decide
+""" 
+
+SIMPLE_SELECTION_USER_PROMPT_QUESTION_THREE_MEANINGS = """
+Among the following options, which one is the right disambiguated meaning of the caption with the help of the image?
+1) "{resolved_caption_correct}"
+2) "{resolved_caption_incorrect_1}"
+3) "{resolved_caption_incorrect_2}"
+4) I cannot decide
+"""
+
+SIMPLE_SELECTION_USER_PROMPT_CONCLUDE = """
+Please provide your answer in the following format:
+Answer: <one of the options> as a single number (1, 2, 3, etc.) 
+"""
 
 STEP1_SYSTEM_PROMPT_TASK_INTRODUCTION = """
 You are a vision and language reasoning model specialised in resolving structural ambiguity using visual context.
