@@ -31,7 +31,7 @@ def build_simple_selection_prompt(sample: dict[str, Any]) -> str:
     for i, option in enumerate(options, start=1):
         lines.append(f'{i}) "{option}"')
         
-    lines.append(f"{len(options) + 1}) I cannot decide")
+    #lines.append(f"{len(options) + 1}) I cannot decide")
     lines.append("")
     lines.append("Please provide your answer in the following format:")
     lines.append("Answer: <one of the options> as a single number (1, 2, 3, etc.)") 

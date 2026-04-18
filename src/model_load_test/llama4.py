@@ -102,10 +102,15 @@ def build_test_input(processor, image: Image.Image):
 
 
 def move_inputs_to_model_device(inputs, model):
-    # For sharded models, moving everything to model.device is often okay for smoke tests.
-    # If this causes issues later, we can refine it.
-    return inputs.to(model.device)
+    inputs = inputs.to(model.device)
+    
+    if "pixel_values" in inputs:
+        inputs["pixel_values"] = inputs["pixel_values"].to(
+            device=model.device,
+            dtype=torch.float16, 
+        )
 
+    return inputs 
 
 def run_generation(processor, model, image: Image.Image) -> None:
     print("=== BUILDING INPUTS ===")
@@ -118,6 +123,11 @@ def run_generation(processor, model, image: Image.Image) -> None:
 
     print("=== RUNNING GENERATION ===")
     with torch.inference_mode():
+        
+        if "pixel_values" in inputs:
+            print("pixel_values dtype:", inputs["pixel_values"].dtype)
+        print("model dtype:", getattr(model, "dtype", "unknown")) 
+        
         outputs = model.generate(
             **inputs,
             max_new_tokens=32,
