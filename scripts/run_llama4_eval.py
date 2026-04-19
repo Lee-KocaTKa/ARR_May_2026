@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse 
 
-from main_eval.const import CATEGORY_DATASET_CONMFIG 
+from main_eval.const import CATEGORY_DATASET_CONFIG 
 from main_eval.dataset.loader import load_groups
 from main_eval.dataset.transform import build_vilstrub_samples
 from main_eval.evaluation.runner import run_evalution_resumeable 
@@ -15,14 +15,14 @@ def main() -> None:
     args = parser.parse_args() 
     
     category = args.category 
-    if category not in CATEGORY_DATASET_CONMFIG: 
-        raise ValueError(f"Invalid category: {category}. Must be one of {list(CATEGORY_DATASET_CONMFIG.keys())}") 
+    if category not in CATEGORY_DATASET_CONFIG: 
+        raise ValueError(f"Invalid category: {category}. Must be one of {list(CATEGORY_DATASET_CONFIG.keys())}") 
     
-    config = CATEGORY_DATASET_CONMFIG[category] 
+    config = CATEGORY_DATASET_CONFIG[category] 
     
     groups = load_groups(config["json_path"]) 
     samples = build_vilstrub_samples(
-        groupus=groups, 
+        groups=groups, 
         category=category, 
         image_dir=config["image_dir"], 
         text_field="Meaning",
