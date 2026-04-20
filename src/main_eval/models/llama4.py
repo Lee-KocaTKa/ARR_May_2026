@@ -3,7 +3,9 @@ from __future__ import annotations
 import re 
 from typing import Any
 
-from pathlib import Path 
+from pathlib import Path
+
+from numpy import dtype 
 
 import torch 
 from PIL import Image 
@@ -13,14 +15,23 @@ from main_eval.dataset.prompt_builder import build_simple_selection_prompt
 from main_eval.models.base import BaseVLM, ModelResponse 
 
 
+max_memory = {
+    0: "20GiB",
+    1: "20GiB",
+    2: "20GiB",
+    3: "20GiB",
+    "cpu": "200GiB",
+}
+
+
 class Llama4VLM (BaseVLM): 
     def __init__(
         self, 
         model_id: str = "meta-llama/Llama-4-Scout-17B-16E-Instruct",
         attn_implmentation: str = "flex_attention", 
-        torch_dtype: torch.dtype = torch.float16, 
+        torch_dtype: dtype = torch.bfloat16, 
         device_map: str = "auto", 
-        max_new_tokens: int = 512, 
+        max_new_tokens: int = 8, 
     ) -> None: 
         self.model_id = model_id
         self.max_new_tokens = max_new_tokens
@@ -28,9 +39,11 @@ class Llama4VLM (BaseVLM):
         self.processor = AutoProcessor.from_pretrained(model_id) 
         self.model = Llama4ForConditionalGeneration.from_pretrained(
             model_id, 
-            attn_implementation=attn_implmentation, 
+            #attn_implementation=attn_implmentation, 
             torch_dtype=torch_dtype, 
-            device_map=device_map, 
+            device_map=device_map,
+            max_memory=max_memory,
+            offload_folder="offload",  
         ) 
         
     def _parse_answer(self, text: str) -> int | None: 
