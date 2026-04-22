@@ -26,7 +26,8 @@ class OpenAIModel:
     ) -> None: 
         self.model_card = model_card 
         self.max_output_tokens = max_output_tokens 
-        self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY")) 
+        key = input("Enter your OpenAI API key: ") 
+        self.client = OpenAI(api_key=key) 
         
     def parse_answer(self, text: str) -> int | None:
         text = text.strip()
@@ -85,7 +86,8 @@ class OpenAIModel:
         raw_text = response.output_text.strip() 
         predicted_option = self.parse_answer(raw_text) 
         
-        return ModelResponse(
-            predicted_option=predicted_option, 
-            raw_response=response, 
-        )
+        return {
+            "predicted_option": predicted_option, 
+            "raw_text": raw_text, 
+        }
+        
