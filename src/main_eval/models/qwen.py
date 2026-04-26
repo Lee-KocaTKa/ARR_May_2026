@@ -3,7 +3,9 @@ from __future__ import annotations
 import re 
 import os 
 from pathlib import Path 
-from openai import OpenAI 
+
+from transformers import Qwen3VLForConditionalGeneration, AutoProcessor 
+
 from typing import Any 
 from main_eval.dataset.prompt_builder import build_simple_selection_prompt
 from main_eval.models.base import BaseVLM, ModelResponse
@@ -12,15 +14,20 @@ from main_eval.models.base import BaseVLM, ModelResponse
 class QwenModel:
     def __init__(
         self,
-        model_card: str = "Qwen/Qwen3.5-4B", 
+        model_card: str = "Qwen/Qwen3-VL-4B-Instruct", 
         max_output_toknes: int = 64, 
     ) -> None: 
         self.model_card = model_card 
         self.max_output_tokens = max_output_toknes 
         #with open("../../../../data/cle.txt", "r") as f:
         #    key = f.read().strip()
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"]) 
-        print(os.environ["OPENAI_API_KEY"]) 
+        self.model = Qwen3VLForConditionalGeneration.from_pretrained(
+            self.model_card, 
+            dtype="auto", 
+            device_map="auto"
+        )
+        self.processor = AutoProcessor.from_pretrained(self.model_card) 
+        #print(os.environ["OPENAI_API_KEY"]) 
     def parse_answer(self, text: str) -> int | None:
         text = text.strip()
 
@@ -54,17 +61,33 @@ class QwenModel:
             }
         ]
         
-        response = self.client.chat.completions.create(
-            model=self.model_card,
-            messages=messages,
-            max_tokens=self.max_output_tokens,
-            temperature=1.0, 
-        ) 
+        inputs = self.processor(
+            messages, 
+            tokenize=True, 
+            add_generation_prompt=True,
+            return_dict=True,
+            return_tensors="pt"
+        )
+        inputs = inputs.to(self.model.device) 
         
-        answer_text = response 
-        predicted_option = self.parse_answer(answer_text) 
+        generated_ids = self.model.generate(
+            **inputs,
+            max_new_tokens=self.max_output_tokens)
+        
+        generated_ids_trimmed = [
+            out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids) 
+        ]
+        
+        output_text = self.processor.batch_decode(
+            generated_ids_trimmed, 
+            skip_special_toknes=True, 
+            clean_up_tokenization_spaces=False
+        )
+        
+
+        predicted_option = self.parse_answer(output_text) 
         
         return ModelResponse(
             predicted_option=predicted_option, 
-            raw_response=response, 
+            raw_response=output_text, 
         )
