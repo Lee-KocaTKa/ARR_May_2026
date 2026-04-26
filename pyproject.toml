@@ -6,7 +6,7 @@ authors = ["Lee Somyo <lee.sangmyeong.lo3@is.naist.jp>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.9.19"
+python = ">=3.10,<3.14"
 torch = {version = "^2.5.1+cu121", source = "torch_cu121"}
 torchvision = {version = "^0.20.1+cu121", source = "torch_cu121"}
 torchaudio = {version = "^2.5.1+cu121", source = "torch_cu121"}
