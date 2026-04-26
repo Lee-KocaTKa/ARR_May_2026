@@ -8,4 +8,4 @@ outputs/
 
 # Python 
 __pycache__/
-*.pyc 
+*.pyc vllm-py312/
