@@ -3,6 +3,7 @@ from __future__ import annotations
 import re 
 import os 
 from pathlib import Path 
+from PIL import Image
 
 from transformers import Qwen3VLForConditionalGeneration, AutoProcessor 
 
@@ -51,17 +52,19 @@ class QwenModel:
         
         prompt = build_simple_selection_prompt(sample) 
         
+        pil_image = Image.open(str(image_path)).convert("RGB")
+        
         messages = [
             {
                 "role": "user",
                 "content": [
-                    {"type": "image", "image": str(image_path)},
+                    {"type": "image", "image": pil_image},
                     {"type": "text", "text": prompt}
                 ]
             }
         ]
         
-        inputs = self.processor(
+        inputs = self.processor.apply_chat_template(
             messages, 
             tokenize=True, 
             add_generation_prompt=True,
@@ -82,12 +85,12 @@ class QwenModel:
             generated_ids_trimmed, 
             skip_special_toknes=True, 
             clean_up_tokenization_spaces=False
-        )
+        )[0] 
         
 
         predicted_option = self.parse_answer(output_text) 
         
-        return ModelResponse(
-            predicted_option=predicted_option, 
-            raw_response=output_text, 
-        )
+        return {
+            "raw_text": output_text,
+            "predicted_option": predicted_option,
+        }
