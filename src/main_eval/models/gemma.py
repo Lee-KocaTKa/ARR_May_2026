@@ -14,7 +14,7 @@ from main_eval.models.base import BaseVLM, ModelResponse
 class GemmaModel: 
     def __init__(
         self, 
-        model_path: str = "google/gemma-3-4b-it"
+        model_path: str = "google/gemma-3-27b-it"
     ) -> None:
     
         self.model_path = model_path 

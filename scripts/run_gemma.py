@@ -29,7 +29,7 @@ def main() -> None:
     
     model = GemmaModel()
     
-    output_path = f"outputs/by_cateogory/{category}_gemma_simple_selection.jsonl"
+    output_path = f"outputs/by_cateogory/{category}_gemma27b_simple_selection.jsonl"
     
     print(f"Category: {category}")
     print(f"Groups: {len(groups)}")

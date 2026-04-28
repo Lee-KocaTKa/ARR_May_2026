@@ -15,7 +15,7 @@ from main_eval.models.base import BaseVLM, ModelResponse
 class QwenModel:
     def __init__(
         self,
-        model_card: str = "Qwen/Qwen3-VL-8B-Instruct", 
+        model_card: str = "Qwen/Qwen3-VL-32B-Instruct", 
         max_output_toknes: int = 64, 
     ) -> None: 
         self.model_card = model_card 
