@@ -31,7 +31,7 @@ def main() -> None:
     
     model = QwenModel()
     
-    output_path = f"outputs/by_cateogory/{category}_qwen_simple_selection.jsonl"
+    output_path = f"outputs/by_cateogory/{category}_qwen8B_simple_selection.jsonl"
     
     print(f"Category: {category}")
     print(f"Groups: {len(groups)}")

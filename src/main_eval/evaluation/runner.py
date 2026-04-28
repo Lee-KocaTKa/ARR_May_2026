@@ -60,7 +60,9 @@ def run_evalution_resumeable(
             gold = sample["gold_option"] 
             category = sample["category"]
             
-            is_correct = (gold in pred) 
+            
+            
+            is_correct = False if pred is None else (gold in pred) 
             
             total += 1
             correct += int(is_correct) 
