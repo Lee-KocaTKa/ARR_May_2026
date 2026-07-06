@@ -54,15 +54,16 @@ Below are the model cards used in our experiments:
 
 If you use LaViSA in your research, please cite: 
 
-`@misc{lee2026lavisa,
-  title={LaViSA: A Language and Vision Structural Ambiguity Benchmark},
-  author={Lee, Sangmyeong and Shu, Inadumi and Koichiro, Yoshino},
-  year={2026},
-  eprint={2606.19552},
-  archivePrefix={arXiv},
-  primaryClass={cs.CL}
-}`
-
+```bibtex
+@misc{lee2026lavisa, 
+  title={LaViSA: A Language and Vision Structural Ambiguity Benchmark}, 
+  author={Lee, Sangmyeong and Shu, Inadumi and Koichiro, Yoshino}, 
+  year={2026}, 
+  eprint={2606.19552}, 
+  archivePrefix={arXiv}, 
+  primaryClass={cs.CL} 
+}
+```
 # License 
 
 This project is released under the CC BY-SA 4.0 License. 
