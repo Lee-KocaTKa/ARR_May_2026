@@ -1,6 +1,7 @@
 # LaViSA (Language and Vision Structural Ambiguity) Benchmark
 Code repository for the ARR May Submission of **LaViSA**, a benchmark for evaluating current Vision-Language Models (VLMs) on processing structural ambiguity using visual information. 
 
+Given an ambiguous sentence and a clarifying image, a model is asked to identify the intended interpretation. LaViSA covers seven types of structural ambiguity and is designed to analyse both model-level performance and category-specific failure patterns.
 ---
 
 # Dataset  
@@ -51,6 +52,16 @@ Below are the model cards used in our experiments:
 
 # Citation 
 
+If you use LaViSA in your research, please cite: 
+
+@misc{lee2026lavisa,
+  title={LaViSA: A Language and Vision Structural Ambiguity Benchmark},
+  author={Lee, Sangmyeong and Inadumi, Shun and Yoshino, Koichiro},
+  year={2026},
+  eprint={2606.19552},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL}
+}
 
 # License 
 
