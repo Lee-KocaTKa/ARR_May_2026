@@ -15,7 +15,7 @@ After downloading the dataset, place it in your preferred directory and set the 
 - `json_path` 
     - Path to the benchmark JSON file 
 - `image_dir`
-    - Path to the benchmark iamge directory 
+    - Path to the benchmark image directory 
 
 # Environment 
 All experiments were conducted under `venv` with Python 3.12.2. 
@@ -30,7 +30,7 @@ Run the code as follows:
 ./run.sh MODEL_TYPE MODEL_CARD
 
 The model types used in our research are:
-`["gemini", "openai", "Sqwen", "gemma", "llava"]`
+`["gemini", "openai", "qwen", "gemma", "llava"]`
 
 Below are the model cards used in our experiments: 
 
@@ -54,14 +54,14 @@ Below are the model cards used in our experiments:
 
 If you use LaViSA in your research, please cite: 
 
-@misc{lee2026lavisa,
+`@misc{lee2026lavisa,
   title={LaViSA: A Language and Vision Structural Ambiguity Benchmark},
-  author={Lee, Sangmyeong and Inadumi, Shun and Yoshino, Koichiro},
+  author={Lee, Sangmyeong and Shu, Inadumi and Koichiro, Yoshino},
   year={2026},
   eprint={2606.19552},
   archivePrefix={arXiv},
   primaryClass={cs.CL}
-}
+}`
 
 # License 
 
